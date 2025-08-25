@@ -135,3 +135,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+
+from django.core.management import call_command
+
+if os.environ.get("LOAD_FIXTURE", "false") == "true":
+    try:
+        call_command("loaddata", "all_data.json")
+    except Exception as e:
+        print("Error loading fixture:", e)
