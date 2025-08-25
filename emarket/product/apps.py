@@ -6,17 +6,18 @@ class ProductConfig(AppConfig):
     name = 'product'
 from django.apps import AppConfig
 import os
+from django.apps import AppConfig
+import os
 
-class CoreConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'core'
+class ProductsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "products"
 
     def ready(self):
-        import os
-        from django.core.management import call_command
         if os.environ.get("LOAD_FIXTURE", "false") == "true":
+            from django.core.management import call_command
             try:
                 call_command("loaddata", "all_data.json")
-                print("✅ Fixture data loaded successfully!")
+                print("✅ Fixture loaded successfully!")
             except Exception as e:
-                print("⚠️ Error loading fixture:", e)
+                print("❌ Error loading fixture:", e)
