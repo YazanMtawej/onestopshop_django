@@ -12,11 +12,8 @@ from rest_framework.pagination import PageNumberPagination
 from django.db.models import Avg
 # Create your views here.
 
-
 @api_view(['GET'])
-
 def get_all_products(request):
-    
     filterset= ProductsFilter(request.GET,queryset=Product.objects.all().order_by('id'))
     count= filterset.qs.count()
     respage=14
@@ -49,13 +46,9 @@ def new_product(request):
              res = ProductSerializer(product , many = False)
 
              return Response({" Product": res.data})
-       
-
        else:
-             
              return Response(serializer.errors)
        
-
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated , IsAdminUser ])
 
@@ -89,8 +82,6 @@ def update_product(request,pk):
        serializer = ProductSerializer(product , many =False)
        return Response({" Product": serializer.data})
 
-             
-
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated , IsAdminUser ])
 
@@ -106,8 +97,6 @@ def delete_product(request,pk):
        return Response({" details": "Delete action is done "}
                        ,status= status.HTTP_200_OK)
                    
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 
@@ -116,9 +105,6 @@ def create_review(request,pk):
        product= get_object_or_404(Product, id=pk)
        data = request.data
        review = product.reviews.filter(user=user) 
-
-
-
       
        if data['rating']<=0 or  data['rating']> 5 :
              
@@ -149,8 +135,6 @@ def create_review(request,pk):
              product.save()
              return Response({'details':'product review created'}) 
 
-  
- 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, 'product_detail.html', {'product': product})
@@ -176,10 +160,3 @@ def delete_review(request,pk):
       
                   return Response({" Error": "Review not found"}
                               ,status= status.HTTP_404_NOT_FOUND)
-     
-     
-
-
-    # Products= Product.objects.all() 
-    # serializer= ProductSerializer( Product,many=True)
-    # print(Products)
